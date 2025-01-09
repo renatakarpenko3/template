@@ -13,7 +13,6 @@ type Artic struct {
 }
 
 func main() {
-
 	fmt.Println("hello world")
 
 	handler1 := func(w http.ResponseWriter, r *http.Request) {
@@ -35,8 +34,14 @@ func main() {
 		tmp1.ExecuteTemplate(w, "article-list-element", Artic{Title: title, Content: content})
 	}
 
+	healthCheckHandler := func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	}
+
 	http.HandleFunc("/", handler1)
 	http.HandleFunc("/add-article/", handler2)
+	http.HandleFunc("/health", healthCheckHandler) 
 
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
