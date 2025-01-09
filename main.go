@@ -25,6 +25,8 @@ func main() {
 			},
 		}
 		tmp1.Execute(w, articles)
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
 	}
 
 	handler2 := func(w http.ResponseWriter, r *http.Request) {
@@ -32,16 +34,12 @@ func main() {
 		content := r.PostFormValue("content")
 		tmp1 := template.Must(template.ParseFiles("template/index.html"))
 		tmp1.ExecuteTemplate(w, "article-list-element", Artic{Title: title, Content: content})
-	}
-
-	healthCheckHandler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))
 	}
 
 	http.HandleFunc("/", handler1)
 	http.HandleFunc("/add-article/", handler2)
-	http.HandleFunc("/health", healthCheckHandler) 
 
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
