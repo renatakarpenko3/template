@@ -26,7 +26,7 @@ func main() {
 		}
 		tmp1.Execute(w, articles)
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+        	fmt.Fprintln(w, "OK")
 	}
 
 	handler2 := func(w http.ResponseWriter, r *http.Request) {
@@ -35,7 +35,7 @@ func main() {
 		tmp1 := template.Must(template.ParseFiles("template/index.html"))
 		tmp1.ExecuteTemplate(w, "article-list-element", Artic{Title: title, Content: content})
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+                fmt.Fprintln(w, "OK")
 	}
 
 	http.HandleFunc("/", handler1)
